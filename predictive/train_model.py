@@ -1,3 +1,6 @@
+from os.path import normpath, join
+import os
+
 import pandas as pd
 import keras
 from sklearn import preprocessing
@@ -6,8 +9,8 @@ from sklearn.metrics import confusion_matrix, recall_score, precision_score
 
 class ModelLSTM:
     def __init__(self):
-        path_to_models = r"G:\NN\config\Predictive Maintenance\model.joblib"
-        self.model = keras.models.load_model("model_lstm.h5")
+        path_to_models = normpath(join(os.getcwd(), 'model_lstm.h5'))
+        self.model = keras.models.load_model(path_to_models)
 
     def gen_sequence(self, id_df, seq_length, seq_cols):
         """ Only sequences that meet the window-length are considered, no padding is used. This means for testing
@@ -24,7 +27,7 @@ class ModelLSTM:
         return data_array[seq_length:num_elements, :]
 
     def preprocessing(self, path):
-        data = pd.read_csv('path', sep=" ", header=None)
+        data = pd.read_csv(path, sep=" ", header=None)
         data.drop(data.columns[[26, 27]], axis=1, inplace=True)
         data.columns = ['id', 'cycle', 'setting1', 'setting2', 'setting3', 's1', 's2', 's3',
                             's4', 's5', 's6', 's7', 's8', 's9', 's10', 's11', 's12', 's13', 's14',
@@ -48,13 +51,15 @@ class ModelLSTM:
                                      index=data.index)
         join_df = data[data.columns.difference(cols_normalize)].join(norm_train_df)
         data = join_df.reindex(columns=data.columns)
+
         sequence_length = 50
         # pick the feature columns
         sensor_cols = ['s' + str(i) for i in range(1, 22)]
         sequence_cols = ['setting1', 'setting2', 'setting3', 'cycle_norm']
         sequence_cols.extend(sensor_cols)
-        seq_gen = (list(self.gen_sequence(data[data['id'] == id], sequence_length, sequence_cols))
-                   for id in data['id'].unique())
+
+        seq_gen = (list(self.gen_sequence(data[data['id'] == id], sequence_length, sequence_cols)) for id in data['id'].unique())
+
         seq_array = np.concatenate(list(seq_gen)).astype(np.float32)
 
         label_gen = [self.gen_labels(data[data['id'] == id], sequence_length, ['label1'])
@@ -66,14 +71,14 @@ class ModelLSTM:
 
     def predict(self, input_data):
         data, label = self.preprocessing(input_data)
-        y_pred = self.model.predict_classes(verbose=1, batch_size=200)
+        y_pred = self.model.predict_classes(data, verbose=1, batch_size=200)
         y_true = label
         cm = confusion_matrix(y_true, y_pred)
         precision = precision_score(y_true, y_pred)
         recall = recall_score(y_true, y_pred)
         return cm, precision, recall
 
-
+path = normpath(join(os.getcwd(), 'data/PM_train.txt'))
 model = ModelLSTM()
-model.predict('PM_test.txt')
-
+test = model.predict(path)
+print(test)
