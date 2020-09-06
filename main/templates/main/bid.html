@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<link href="{% static 'css/home.css' %}" rel="stylesheet">
+<link href="{% static 'css/bid.css' %}" rel="stylesheet">
+
+<div class="wrapper">
+    <div class="sidebar">
+        <div class="sidebar_head"><h2>Заявки</h2></div>
+        <ul>
+            <li><a href="{% url 'home' %}">Главная</a></li>
+            <li><a href="#">Анализ</a></li>
+            <li><a href="#">Обслуживание</a></li>
+            <li><a href="#">Ремонт</a></li>
+            <li><a href="#">Отчеты</a></li>
+        </ul>
+    </div>
+    <div class="main_content">
+        <div class="bid_form">
+            <form action="#" method="post">
+                {% csrf_token %}
+                <div class="form-group row">
+                   <label for="example-text-input" class="col-xs-2 col-form-label">Отправитель</label>
+                   <div class="col-xs-10"> {{ form.sender }} </div>
+                </div>
+                <div class="form-group row">
+                   <label for="example-text-input" class="col-xs-2 col-form-label">Тип заявки</label>
+                   <div class="col-xs-10"> {{ form.type }} </div>
+                </div>
+                <div class="form-group row">
+                   <label for="example-text-input" class="col-xs-2 col-form-label">Цех</label>
+                   <div class="col-xs-10"> {{ form.manufacture }} </div>
+                </div>
+                <div class="form-group row">
+                   <label for="example-text-input" class="col-xs-2 col-form-label">Станок</label>
+                   <div class="col-xs-10"> {{ form.machine }} </div>
+                </div>
+                <div class="form-group row">
+                   <label for="example-text-input" class="col-xs-2 col-form-label">Неисправность</label>
+                   <div class="col-xs-10"> {{ form.malfunction }} </div>
+                </div>
+                <div class="input-group-prepend">
+                    <button class="btn btn-outline-secondary" type="submit">Отправить</button>
+                </div>
+            </form>
+        </div>
+        <canvas id="MyChart"></canvas>
+    </div>
+{#    <script type="text/javascript" src={% static "js/chart.js" %}></script>#}
+<script>
+
+var lineChartData = {
+    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    datasets: [{
+        label: 'My First dataset',
+        borderColor: window.chartColors.red,
+        backgroundColor: window.chartColors.red,
+        fill: false,
+        data: [
+            randomScalingFactor(),
+            randomScalingFactor(),
+            randomScalingFactor(),
+            randomScalingFactor(),
+            randomScalingFactor(),
+            randomScalingFactor(),
+            randomScalingFactor()
+        ],
+        yAxisID: 'y-axis-1',
+    }, {
+        label: 'My Second dataset',
+        borderColor: window.chartColors.blue,
+        backgroundColor: window.chartColors.blue,
+        fill: false,
+        data: [
+            randomScalingFactor(),
+            randomScalingFactor(),
+            randomScalingFactor(),
+            randomScalingFactor(),
+            randomScalingFactor(),
+            randomScalingFactor(),
+            randomScalingFactor()
+        ],
+        yAxisID: 'y-axis-2'
+    }]
+};
+
+window.onload = function() {
+    var ctx = document.getElementById('canvas').getContext('2d');
+    window.myLine = Chart.Line(ctx, {
+        data: lineChartData,
+        options: {
+            responsive: true,
+            hoverMode: 'index',
+            stacked: false,
+            title: {
+                display: true,
+                text: 'Chart.js Line Chart - Multi Axis'
+            },
+            scales: {
+                yAxes: [{
+                    type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                    display: true,
+                    position: 'left',
+                    id: 'y-axis-1',
+                }, {
+                    type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                    display: true,
+                    position: 'right',
+                    id: 'y-axis-2',
+
+                    // grid line settings
+                    gridLines: {
+                        drawOnChartArea: false, // only want the grid lines for one axis to show up
+                    },
+                }],
+            }
+        }
+    });
+};
+
+document.getElementById('MyChart').addEventListener('click', function() {
+    lineChartData.datasets.forEach(function(dataset) {
+        dataset.data = dataset.data.map(function() {
+            return randomScalingFactor();
+        });
+    });
+
+    window.myLine.update();
+});
+
+</script>
+</div>
+{% endblock %}
+
+

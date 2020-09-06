@@ -1,0 +1,80 @@
+
+
+* {
+    text-decoration: none;
+    list-style: none;
+}
+
+.wrapper{
+    font-family: Arial, sans-serif;
+    display: flex;
+    position: relative;
+}
+
+.wrapper .sidebar{
+    position: fixed;
+    width: 15%;
+    height: 100%;
+    background: lightgray;
+    padding: 30px 0;
+}
+
+.wrapper .sidebar_head{
+    margin-top: 100px;
+}
+
+.wrapper .sidebar h2{
+    color: #fff;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.wrapper .sidebar ul li{
+    padding: 15px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.0);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 15px;
+
+}
+
+.wrapper .sidebar ul li a{
+    display: block;
+    color: #1b3536;
+    font-weight: bold;
+}
+
+
+.wrapper .sidebar ul li:hover{
+    background: #777777;
+}
+
+.wrapper .sidebar ul li:hover a{
+    color:#fff;
+}
+
+.wrapper .main_content{
+    display: flex;
+    flex-direction: row;
+    position: fixed;
+    margin-top: 7%;
+    margin-left:15%;
+    width: 100%;
+}
+
+
+.wrapper .main_content .table_head{
+
+    text-align: center;
+    background: lightblue;
+    height: 40px;
+    font-size: 25px;
+}
+
+.wrapper .main_content .machine_table,
+.bid_table,
+.machine_status_table {
+    position: center;
+}
+
+
