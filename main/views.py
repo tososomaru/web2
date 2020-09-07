@@ -1,48 +1,14 @@
-import datetime as datetime
-from django.core import serializers
 from django.http import JsonResponse
-from django.shortcuts import render, redirect
-from django.views.generic import ListView
+from django.shortcuts import redirect
 from django.views.generic.base import View
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
-
+from django.shortcuts import render
+from rest_framework.response import Response
+from rest_framework import viewsets, mixins, status
 
 from .models import *
+from .serializers import *
 from .forms import BidForm
-from predictive.models import Maint
 
-class DashBoard(View):
-
-    def pivot_data(request):
-        dataset = Maint.objects.all()
-        data = serializers.serialize('json', dataset)
-        return JsonResponse(data, safe=False)
-
-    def post(self, request):
-        form = BidForm(request.POST)
-        if form.is_valid():
-            form = form.save(commit=False)
-            form.status = RequestStatus.objects.get(id=1);
-            form.save()
-        return redirect("../main/dashboard.html")
-
-    def get(self, request):
-
-        sender = Employee.objects.all()
-        type = TypeRequest.objects.all()
-        manufacture = Manufacture.objects.all()
-        machine = Machine.objects.all()
-        malfunction = Malfunction.objects.all()
-        status = RequestStatus.objects.all()
-        form = BidForm()
-
-        context = {'senders': sender, 'types': type,
-                   'manufactures': manufacture, 'machines': machine,
-                   'malfunctions': malfunction, 'statuses': status,
-                   'form': form}
-
-
-        return render(request, 'main/dashboard.html', context)
 
 
 class MainView(View):
@@ -66,11 +32,6 @@ class AboutView(View):
 
 
 class BidView(View):
-
-    def pivot_data(request):
-        dataset = Main.objects.all()
-        data = serializers.serialize('json', dataset)
-        return JsonResponse(data, safe=False)
 
     def post(self, request):
         form = BidForm(request.POST)
@@ -100,13 +61,44 @@ class BidView(View):
 
 
 
-# class BidCreate(CreateView):
-#     model = Request
-#     form_class = BidForm
-#     template_name = 'main/bid.html'
-#     fields = ['typeRequest', 'manufacture']
-#
-# class BidUpdate(UpdateView):
-#     model = Request
-#     fields = ['typeRequest', 'manufacture']
+class PositionViewSet(
+    mixins.RetrieveModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet,
+    mixins.CreateModelMixin):
 
+    serializer_class = PositionSerializer
+    queryset = Position.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        super(PositionViewSet, self).create(request, args, kwargs)
+        response = {"status_code": status.HTTP_200_OK,
+                    "message": "Successfully created",
+                    "result": request.data}
+        return Response(response)
+
+class SpecialtyViewSet(
+    mixins.RetrieveModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet,
+    mixins.CreateModelMixin):
+
+    serializer_class = SpecialitySerializer
+    queryset = Specialty.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        super(SpecialtyViewSet, self).create(request, args, kwargs)
+        response = {"status_code": status.HTTP_200_OK,
+                    "message": "Successfully created",
+                    "result": request.data}
+        return Response(response)
+
+class TypeRequestViewSet(
+    mixins.RetrieveModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet,
+    mixins.CreateModelMixin):
+
+    serializer_class = TypeRequestSerializer
+    queryset = TypeRequest.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        super(TypeRequestViewSet, self).create(request, args, kwargs)
+        response = {"status_code": status.HTTP_200_OK,
+                    "message": "Successfully created",
+                    "result": request.data}
+        return Response(response)

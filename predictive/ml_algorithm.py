@@ -8,15 +8,17 @@ from os.path import normpath, join
 
 class ModelLSTM:
 
-    def __init__(self, name_model, name_min_max_scaler):
-        path_to_models = normpath(join(os.getcwd(), name_model))
-        path_to_min_max_scaler = normpath(join(os.getcwd(), name_min_max_scaler))
+    def __init__(self,):
+
+        path_to_models = normpath(join(os.getcwd(), 'ml_model/model_lstm.h5'))
+        path_to_min_max_scaler = normpath(join(os.getcwd(), 'ml_model/min_max_scaler.pkl'))
         self.model = keras.models.load_model(path_to_models)
         self.min_max_scaler  = joblib.load(path_to_min_max_scaler)
 
     def preprocessing(self, data):
         #read data
         data = pd.DataFrame(data)
+        data = data.iloc[0:100 , :]
         data.drop(data.columns[[26, 27]], axis=1, inplace=True)
         data.columns = ['id', 'cycle', 'setting1', 'setting2', 'setting3', 's1', 's2', 's3',
                             's4', 's5', 's6', 's7', 's8', 's9', 's10', 's11', 's12', 's13', 's14',

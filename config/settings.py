@@ -40,18 +40,21 @@ PREREQ_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_plotly_dash.apps.DjangoPlotlyDashConfig',
+
 ]
 
 PACKAGE_APPS = [
 
     'channels',
     'channels_redis',
+    'rest_framework',
 ]
 
 PROJECT_APPS = [
     'main',
-    'charts',
+    'dashboard',
     'predictive',
+    'data',
 ]
 
 INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS + PACKAGE_APPS

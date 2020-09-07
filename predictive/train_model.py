@@ -9,7 +9,7 @@ from sklearn.metrics import confusion_matrix, recall_score, precision_score
 
 class ModelLSTM:
     def __init__(self):
-        path_to_models = normpath(join(os.getcwd(), 'model_lstm.h5'))
+        path_to_models = normpath(join(os.getcwd(), 'ml_model/model_lstm.h5'))
         self.model = keras.models.load_model(path_to_models)
 
     def gen_sequence(self, id_df, seq_length, seq_cols):

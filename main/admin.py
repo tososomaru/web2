@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import *
-from predictive.models import *
+from data.models import *
 
 admin.site.register(Machine)
 admin.site.register(MachineStatus)
@@ -16,4 +16,3 @@ admin.site.register(Request)
 admin.site.register(RequestStatus)
 admin.site.register(MachineCondition)
 admin.site.register(Workplace)
-admin.site.register(Errors)
