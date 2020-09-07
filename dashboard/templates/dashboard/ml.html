@@ -1,0 +1,11 @@
+{% extends 'main/bases.html' %}
+{% load static %}
+
+{% load plotly_dash %}
+{% block content %}
+
+<div class="{% plotly_class name="Predictive"%} card " style="height: 50%; width: 100%">
+   {% plotly_app name='Predictive' ratio=1 %}
+</div>
+
+{% endblock %}

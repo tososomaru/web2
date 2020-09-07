@@ -12,3 +12,9 @@ router.register(r"mlrequests", MLRequestViewSet, basename="mlrequests")
 urlpatterns = [
     url(r"^api/v1/", include(router.urls)),
 ]
+
+from predictive.registry import deploy_algorithm
+
+#Uncomment to upload the model to the server
+#Расскоментируйте для загрузки модели на сервер
+# deploy_algorithm()

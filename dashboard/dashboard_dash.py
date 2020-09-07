@@ -122,7 +122,8 @@ Graph.layout = html.Div([
                                searchable=True,search_value='',
                                placeholder='Выберите признак...',
                                clearable=True,style={'width':"100%"})],
-                 style={'margin-top': 20})]),
+                 style={'margin-top': 20})
+    ]),
     html.Div([
         html.Div(className='row',
                  style={'display': 'flex'}, children=[
@@ -372,9 +373,5 @@ def display_value(value, input):
     )
     return {'data': [graph], 'layout': layout}, log
 
-
-Predictive = DjangoDash('Predictive', external_stylesheets=external_stylesheets)
-
-Predictive.layout = html.Div([
-
-])
+if __name__ == '__main__':
+    Graph.run_server(debug=True)

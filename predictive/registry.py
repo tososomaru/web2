@@ -1,4 +1,7 @@
-from .models import MLAlgorithm, MLAlgorithmStatus, Endpoint
+import inspect
+from predictive.ml_algorithm import ModelLSTM
+from predictive.models import *
+
 
 class MLRegistry:
     def __init__(self):
@@ -28,3 +31,21 @@ class MLRegistry:
 
         # add to registry
         self.endpoints[database_object.id] = algorithm_object
+
+
+def deploy_algorithm():
+    try:
+        registry = MLRegistry()
+        rf = ModelLSTM()
+        registry.add_algorithm(endpoint_name="binary classification models",
+                               algorithm_object=rf,
+                               algorithm_name="model LSTM",
+                               algorithm_status="test",
+                               algorithm_version="0.0.1",
+                               owner="Nikita",
+                               algorithm_description="Предскажет, выйдет ли оборудование из строя в течение"
+                                                     " определенного периода времени (30 циклов).",
+                               algorithm_code=inspect.getsource(ModelLSTM))
+
+    except Exception as e:
+        print("Исключение при загрузке алгоритма в реестр", str(e))

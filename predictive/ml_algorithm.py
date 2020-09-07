@@ -10,8 +10,8 @@ class ModelLSTM:
 
     def __init__(self,):
 
-        path_to_models = normpath(join(os.getcwd(), 'ml_model/model_lstm.h5'))
-        path_to_min_max_scaler = normpath(join(os.getcwd(), 'ml_model/min_max_scaler.pkl'))
+        path_to_models = normpath(join(os.getcwd(), 'predictive/ml_model/model_lstm.h5'))
+        path_to_min_max_scaler = normpath(join(os.getcwd(), 'predictive/ml_model/min_max_scaler.pkl'))
         self.model = keras.models.load_model(path_to_models)
         self.min_max_scaler  = joblib.load(path_to_min_max_scaler)
 

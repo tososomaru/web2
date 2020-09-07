@@ -18,6 +18,7 @@ from django.urls import path, include
 from django.conf.urls import url
 
 from predictive.urls import urlpatterns as predictive_urlpatterns
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'main/', include('main.urls')),
