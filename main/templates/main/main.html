@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head
+    <meta charset="UTF-8">
+    <title>Выбор пользователя</title>
+    {% load static %}
+</head>
+<body style="font-size: 30px">
+    <div class="heroes" style="display: flex; padding-top: 100px; width: 100vw; justify-content: center">Выбор пользователя</div>
+        <ul style="text-align: center;  list-style-type: none; width: 100vw; padding: 0">
+            <li><a href="{% url 'foreman_home' %}">Начальник цеха</a></li>
+            <li><a href="{% url 'head_place' %}">Начальник участка</a></li>
+            <li><a href="{% url 'head_repair_service_home' %}">Начальник ремонтной службы</a></li>
+            <li><a href="{% url 'repairman' %}">Ремонтный рабочий</a></li>
+        </ul>
+
+</body>
+</html>

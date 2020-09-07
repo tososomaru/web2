@@ -48,6 +48,7 @@ PACKAGE_APPS = [
     'channels',
     'channels_redis',
     'rest_framework',
+    'crispy_forms'
 ]
 
 PROJECT_APPS = [
@@ -185,3 +186,5 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR / 'main/static/')
 ]
 
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'

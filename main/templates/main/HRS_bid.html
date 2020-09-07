@@ -4,29 +4,30 @@
 {% load static %}
 
 {% block content %}
+    <link href="{% static 'css/home.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bid.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
 
-<link href="{% static 'css/home.css' %}" rel="stylesheet">
-<link href="{% static 'css/bid.css' %}" rel="stylesheet">
-
-<div class="wrapper">
-    <div class="sidebar">
-        <div class="sidebar_head"><h2>Заявки</h2></div>
-        <ul>
-            <li><a href="{% url 'home' %}">Главная</a></li>
-            <li><a href="#">Анализ</a></li>
-            <li><a href="#">Обслуживание</a></li>
-            <li><a href="#">Ремонт</a></li>
-            <li><a href="#">Отчеты</a></li>
-        </ul>
-    </div>
-    <div class="main_content">
-        <div class="bid_form">
+    <div class="wrapper">
+        <div class="main_flex">
+            <div class="main_content">
+                <div class="head_form">Подать заявку</div>
+                <div class="bid_form">
 
                 <form action="#" method="post" class="form">
-       {% csrf_token %}
+                     {% csrf_token %}
+                    <div class="form-group ">
+                       <label for="example-text-input" class="col-xs-2 col-form-label">Отправитель</label>
+                       <div class="col-xs-10"> {{ form.sender }} </div>
+                    </div>
                     <div class="form-group ">
                        <label for="example-text-input" class="col-xs-2 col-form-label">Тип заявки</label>
                        <div class="col-xs-10"> {{ form.type }} </div>
+                    </div>
+                    <div class="form-group ">
+                       <label for="example-text-input" class="col-xs-2 col-form-label">Цех</label>
+                       <div class="col-xs-10"> {{ form.manufacture }} </div>
                     </div>
                     <div class="form-group ">
                        <label for="example-text-input" class="col-xs-2 col-form-label">Станок</label>
@@ -36,6 +37,11 @@
                        <label for="example-text-input" class="col-xs-2 col-form-label">Неисправность</label>
                        <div class="col-xs-10"> {{ form.malfunction }} </div>
                     </div>
+
+
+
+
+
                     <div class="input-group-prepend">
                         <button class="btn btn-outline-secondary" type="submit">Отправить</button>
                     </div>
@@ -51,10 +57,11 @@
                             <thead>
                                 <tr class="thead-dark">
                                     <th>Номер заявки</th>
-                                    <th>Оператор станка</th>
+                                    <th>Отправитель</th>
                                     <th>Тип заявки</th>
-                                    <th>Номер станка</th>
-                                    <th>Неисправность</th>
+                                    <th>Цех</th>
+                                    <th>Модель станка</th>
+                                    <th>Неиспарвность</th>
                                     <th>Статус заявки</th>
                                     <th>Дата заявки</th>
                                 </tr>
@@ -62,10 +69,11 @@
                             <tbody>
                                 {% for bid in bids %}
                                 <tr>
-                                <td>{{  bid.id }}</td>
-                                <td>{{ bid.workplace.worker }}</td>
+                                <td>{{ bid.id }}</td>
+                                <td>{{ bid.sender }}</td>
                                 <td>{{ bid.typeRequest }}</td>
-                                <td>{{ bid.workplace.machine }}</td>
+                                <td>{{ bid.manufacture }}</td>
+                                <td>{{ bid.machine.model }}</td>
                                 <td>{{ bid.malfunction }}</td>
                                 <td>{{ bid.status }}</td>
                                 <td>{{ bid.date }}</td>
@@ -75,8 +83,22 @@
                         </table>
                     </div>
                 </div>
+
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" ></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+        <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+        <script>
+            $('.mydatatable').DataTable();
+        </script>
+
+
+
     </div>
-</div>
 {% endblock %}
 
 

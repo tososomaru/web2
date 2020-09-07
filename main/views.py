@@ -12,6 +12,25 @@ from .forms import BidForm
 
 
 class MainView(View):
+
+    def get(self, request):
+
+        bid = Request.objects.all()
+        repair = Repair.objects.all()
+        worker = Employee.objects.only('Ремонтный рабочий')
+        machine = Machine.objects.all()
+        machine_status = MachineStatus.objects.all()
+        specialist = Employee.objects.all()
+        workplace = Workplace.objects.all()
+
+        context = {'bids': bid, 'repairs': repair,
+                   'workers': worker, 'machines': machine, 'specialists': specialist,
+                   'machine_statuses': machine_status, 'workplaces': workplace}
+        return render(request, 'main/home.html', context)
+
+
+class ForemanHomeView(View):
+
     def get(self, request):
 
         bid = Request.objects.all()
@@ -23,13 +42,60 @@ class MainView(View):
         context = {'bids': bid, 'repairs': repair,
                    'workers': worker, 'machines': machine,
                    'machine_statuses': machine_status}
-        return render(request, 'main/home.html', context)
+        return render(request, 'main/foreman_home.html', context)
 
-
-class AboutView(View):
+class ForemanBidView(View):
     def get(self, request):
-        return render(request, 'main/about.html')
+        end_bid = Request.objects.filter(status__requestStatus='Завершен')
+        bid = Request.objects.filter(status__requestStatus='Ремонт')
+        new_bid = Request.objects.filter(status__requestStatus='Ожидание')
+        repair = Repair.objects.all()
+        worker = Employee.objects.only('Ремонтный рабочий')
+        machine_status = MachineStatus.objects.all()
+        sender = Employee.objects.all()
+        type = TypeRequest.objects.all()
+        manufacture = Manufacture.objects.all()
+        machine = Machine.objects.all()
+        malfunction = Malfunction.objects.all()
+        status = RequestStatus.objects.all()
+        workplace = Workplace.objects.all()
+        context = {'senders': sender, 'types': type,
+                   'manufactures': manufacture, 'machines': machine,
+                   'malfunctions': malfunction, 'statuses': status,
+                   'end_bids': end_bid, 'bids': bid, 'repairs': repair,
+                   'workers': worker, 'new_bids': new_bid, 'workplaces': workplace,
+                   'machine_statuses': machine_status}
+        return render(request, 'main/foreman_bid.html', context)
 
+class RepairManView(View):
+    def get(self, request):
+        new_bid = Request.objects.filter(status__requestStatus='Ожидание')
+        bid = Request.objects.filter(status__requestStatus='Ремонт')
+        repair = Repair.objects.all()
+        worker = Employee.objects.only('Ремонтный рабочий')
+        machine_status = MachineStatus.objects.all()
+        sender = Employee.objects.all()
+        type = TypeRequest.objects.all()
+        manufacture = Manufacture.objects.all()
+        machine = Machine.objects.all()
+        malfunction = Malfunction.objects.all()
+        status = RequestStatus.objects.all()
+        workplace = Workplace.objects.all()
+        context = {'senders': sender, 'types': type,
+                   'manufactures': manufacture, 'machines': machine,
+                   'malfunctions': malfunction, 'statuses': status,
+                   'new_bids': new_bid, 'bids': bid, 'repairs': repair,
+                   'workers': worker, 'workplaces': workplace,
+                   'machine_statuses': machine_status}
+
+        return render(request, 'main/repairman.html', context)
+
+class ContactView(View):
+    def get(self, request):
+        specialist = Employee.objects.all()
+
+        context = {'specialists': specialist}
+        return render(request, 'main/contact.html', context)
 
 class BidView(View):
 
@@ -42,23 +108,58 @@ class BidView(View):
         return redirect("../main/bid.html")
 
     def get(self, request):
-
+        bid = Request.objects.all()
+        repair = Repair.objects.all()
+        worker = Employee.objects.only('Ремонтный рабочий')
+        machine_status = MachineStatus.objects.all()
         sender = Employee.objects.all()
         type = TypeRequest.objects.all()
         manufacture = Manufacture.objects.all()
         machine = Machine.objects.all()
         malfunction = Malfunction.objects.all()
         status = RequestStatus.objects.all()
+        workplace = Workplace.objects.all()
+
         form = BidForm()
 
         context = {'senders': sender, 'types': type,
                    'manufactures': manufacture, 'machines': machine,
                    'malfunctions': malfunction, 'statuses': status,
-                   'form': form}
+                   'form': form, 'bids': bid, 'repairs': repair,
+                   'workers': worker, 'workplaces': workplace,
+                   'machine_statuses': machine_status}
 
         return render(request, 'main/bid.html', context)
 
 
+
+class HRSHomeView(View):
+    def get(self, request):
+
+        bid = Request.objects.all()
+        repair = Repair.objects.all()
+        worker = Employee.objects.only('Ремонтный рабочий')
+        machine = Machine.objects.all()
+        machine_status = MachineStatus.objects.all()
+
+        context = {'bids': bid, 'repairs': repair,
+                   'workers': worker, 'machines': machine,
+                   'machine_statuses': machine_status}
+        return render(request, 'main/HRS_home.html', context)
+
+class HRSBidView(View):
+    def get(self, request):
+
+        bid = Request.objects.all()
+        repair = Repair.objects.all()
+        worker = Employee.objects.only('Ремонтный рабочий')
+        machine = Machine.objects.all()
+        machine_status = MachineStatus.objects.all()
+
+        context = {'bids': bid, 'repairs': repair,
+                   'workers': worker, 'machines': machine,
+                   'machine_statuses': machine_status}
+        return render(request, 'main/HRS_bid.html', context)
 
 
 class PositionViewSet(

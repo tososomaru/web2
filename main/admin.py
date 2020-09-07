@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import *
 from data.models import *
+from django.contrib.auth.models import User
 
 admin.site.register(Machine)
 admin.site.register(MachineStatus)
