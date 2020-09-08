@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '0+81efxeqvgqnvs7s6_2$kqw%tm-ox
 #DEBUG = True
 DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['tososomaru-web.herokuapp.com','127.0.0.1']
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
