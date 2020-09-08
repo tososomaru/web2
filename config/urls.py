@@ -22,6 +22,7 @@ from predictive.urls import urlpatterns as predictive_urlpatterns
 
 
 urlpatterns = [
+    url(r'^$', views.LoginView.as_view()),
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
     path('django_plotly_dash/', include('django_plotly_dash.urls')),
