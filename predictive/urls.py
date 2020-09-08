@@ -14,7 +14,6 @@ urlpatterns = [
     path("api/v1/", include(router.urls)),
 ]
 
-from predictive.registry import deploy_algorithm
 
 #Uncomment to upload the model to the server
 #Расскоментируйте для загрузки модели на сервер
