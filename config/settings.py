@@ -25,8 +25,8 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '0+81efxeqvgqnvs7s6_2$kqw%tm-ox6s7w@b*jjua#x5y=opp&')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = True
-DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
+DEBUG = True
+# DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
 
 ALLOWED_HOSTS = ['tososomaru-web.herokuapp.com','127.0.0.1']
 
@@ -201,7 +201,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 STATICFILES_LOCATION = 'static'
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = 'static'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR / 'main/static/')
 ]
