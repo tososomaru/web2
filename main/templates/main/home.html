@@ -5,90 +5,13 @@
 
 {% block content %}
     <link href="{% static 'css/home.css' %}" rel="stylesheet">
-    <div class="wrapper">
-        <div class="main_content">
-            <div class="machine_table">
-                    <div class="table_head">
-                        <h3>Станки</h3>
-                    </div>
-                    <div class="container mb-5 mt-2">
-                        <table class="table table-striped table-bordered">
-                            <thead>
-                                <tr class="thead-dark">
-                                    <th>Модель</th>
-                                    <th>Параметер</th>
-                                    <th>Значение</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for machine in machines %}
-                                    <tr>
-                                        <td>{{ machine.model }}</td>
-                                        <td>{{ machine.feature}}</td>
-                                        <td>{{ machine.featureValue }}</td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-            </div>
- <div class="machine_table">
-                        <div class="table_head" style="margin-top: 20px">
-                            <h3>Станки</h3>
-                        </div>
-                        <div class="container mb-5 mt-2">
-                            <table class="table table-striped table-bordered">
-                                <thead>
-                                    <tr class="thead-dark">
-                                        <th>Модель</th>
-                                        <th>Параметер</th>
-                                        <th>Значение</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for machine in machines %}
-                                        <tr>
-                                            <td>{{ machine.model }}</td>
-                                            <td>{{ machine.feature}}</td>
-                                            <td>{{ machine.featureValue }}</td>
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                </div>
 
-                <div class="machine_status_table">
-                    <div class="table_head"><h3>Статус машин</h3></div>
-                    <div class="container mb-5 mt-2">
-                        <table class="table table-striped table-border mydatatable">
-                            <thead>
-                                <tr class="thead-dark">
-                                    <th>ID станка</th>
-                                    <th>Номер станка</th>
-                                    <th>Состояние</th>
-                                    <th>Цех</th>
-                                    <th>Оператор</th>
-                                    <th>Последний ремонт</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for machine_status in machine_statuses %}
-                                    <tr>
-                                        <td>{{ machine_status.machine.id }}</td>
-                                        <td>{{ machine_status.machine.model }}</td>
-                                        <td>{{ machine_status.machineCondition }}</td>
-                                        <td>{{ machine_status.workplace.manufacture}}</td>
-                                        <td>{{ machine_status.workplace.worker }}</td>
-                                        <td>{{ machine_status.repair.dateEndRepair }}</td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+        <div class="main_content" style=" display: flex; flex-direction: column;  justify-content: center; width: 100%">
+
+           {% include 'main/machine.html' %}
+
         </div>
-    </div>
+
 {% endblock %}
 
 

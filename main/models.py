@@ -60,7 +60,8 @@ class FeatureMachine(models.Model):
     """Характеристики станка"""
     featureName = models.CharField('Название характеристики', max_length=100)
     featureDescription = models.TextField('Описание характеристики', blank=True)
-
+    machine = models.ManyToManyField('Machine')
+    featureValue = models.PositiveSmallIntegerField('Значание характеристики')
     def __str__(self):
         return self.featureName
 
@@ -69,17 +70,9 @@ class FeatureMachine(models.Model):
         verbose_name = 'Характеристика станка'
         verbose_name_plural = 'Характеристики станков'
 
-
-class FeatureValue(models.Model):
-
-    pass
-
 class Machine(models.Model):
     """Станок"""
     model = models.SlugField('Станок', max_length=50)
-    feature = models.ForeignKey(FeatureMachine, verbose_name='Характеристика',
-                                on_delete=models.SET_NULL, null=True)
-    featureValue = models.PositiveSmallIntegerField('Значание характеристики')
 
     def __str__(self):
         return self.model
@@ -90,26 +83,15 @@ class Machine(models.Model):
         verbose_name_plural = 'Станки'
 
 
-class Malfunction(models.Model):
-    """Неисправность"""
-    malfunction = models.CharField('Неисправность', max_length=50)
-
-    def __str__(self):
-        return self.malfunction
-
-    class Meta:
-        db_table = 'malfunction'
-        verbose_name = 'Неисправность'
-        verbose_name_plural = 'Неисправности'
 
 
 class RequestStatus(models.Model):
     """Статус заявки"""
-    requestStatus = models.CharField('Статус заявки', max_length=50)
-
-    def __str__(self):
-        return self.requestStatus
-
+    status = models.CharField('Статус заявки', max_length=50)
+    parentRequest = models.ForeignKey('Request', verbose_name='Заявка',
+                               on_delete=models.DO_NOTHING)
+    owner = models.CharField(max_length=128, verbose_name='Автор')
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, verbose_name='Дата создания')
     class Meta:
         db_table = 'request_status'
         verbose_name = 'Статус завки'
@@ -118,7 +100,9 @@ class RequestStatus(models.Model):
 
 class MachineCondition(models.Model):
     """Состояние станка"""
-    machineCondition = models.CharField('Статус заявки', max_length=50)
+    machineCondition = models.CharField('Cостояние станка', max_length=50)
+    parentMachine = models.ForeignKey(Machine, verbose_name='Станок', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, verbose_name='Дата изменения')
 
     def __str__(self):
         return self.machineCondition
@@ -157,18 +141,12 @@ class Request(models.Model):
     sender = models.ForeignKey(Employee, verbose_name='Отправитель',
                                on_delete=models.DO_NOTHING)
     typeRequest = models.ForeignKey(TypeRequest, verbose_name='Тип заявки',
-                                    on_delete=models.DO_NOTHING)
-    manufacture = models.ForeignKey(Manufacture, verbose_name='Цех',
-                                           on_delete=models.DO_NOTHING)
+                                    on_delete=models.DO_NOTHING),
     machine = models.ForeignKey(Machine, verbose_name='Станок',
                                        on_delete=models.DO_NOTHING)
-    malfunction = models.ForeignKey(Malfunction, verbose_name='Неисправность',
-                                           on_delete=models.DO_NOTHING)
-    status = models.ForeignKey(RequestStatus, verbose_name='Статус заявки',
-                                      on_delete=models.DO_NOTHING, blank=True, default=1)
-    date = models.DateTimeField('Дата заявки', auto_now_add=True)
-    dateOfAdoption = models.DateTimeField('Дата принятия', auto_now_add=True)
+    malfunction = models.CharField(verbose_name='Неисправность', max_length=100)
 
+    date = models.DateTimeField('Дата заявки', auto_now_add=True)
     def __str__(self):
         return "{} {}".format(self.sender, self.date)
 
@@ -209,7 +187,7 @@ class Workplace(models.Model):
 
 
     def __str__(self):
-        return "{} {}".format(self.worker, self.machine)
+        return "Оператор: {} Станок: {}".format(self.worker, self.machine)
 
     class Meta:
         db_table = 'workplace'
@@ -220,20 +198,11 @@ class Workplace(models.Model):
 class Repair(models.Model):
     """Ремонт"""
 
-    dateStartRepair = models.DateTimeField('Дата начала ремонта', default=timezone.now)
-    dateEndRepair = models.DateTimeField('Дата конца ремонта', default=timezone.now)
+    dateStartRepair = models.DateTimeField('Дата начала ремонта',auto_now_add=True, blank=True)
     repairWorker = models.ForeignKey(Employee, verbose_name='Рабочий',
                                      on_delete=models.CASCADE)
 
     requestRepair = models.ForeignKey(Request, verbose_name='Заявка', on_delete=models.CASCADE)
-    # repairManufacture = models.ForeignKey('self', verbose_name='Цех',
-    #                                       on_delete=models.CASCADE)
-    #
-    # repairMachine = models.ForeignKey('self', verbose_name='Станок',
-    #                                   on_delete=models.CASCADE)
-    #
-    # numberApplication = models.ForeignKey('self', verbose_name='Номер заявки',
-    #                                       on_delete=models.CASCADE)
 
     def __str__(self):
         return "{} {}".format(self.repairWorker.firstName, self.repairWorker.lastName)

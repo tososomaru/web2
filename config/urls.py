@@ -20,6 +20,7 @@ from django.conf.urls import url
 from django.contrib.auth import views
 from predictive.urls import urlpatterns as predictive_urlpatterns
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),

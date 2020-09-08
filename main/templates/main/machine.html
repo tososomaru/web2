@@ -1,0 +1,308 @@
+
+{% load static %}
+<link href="{% static 'css/home.css' %}" rel="stylesheet">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+
+
+{% for group in request.user.groups.all %}
+{% if group.name == 'level0' %}
+
+ <div class="machine_table">
+    <div class="table_head" style="margin-top: 20px">
+        <h3>Станки</h3>
+    </div>
+    <div class="container mb-5 mt-2">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr class="thead-dark">
+                    <th>Модель</th>
+                    <th>Параметер</th>
+                    <th>Значение</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for machine in machines %}
+                    <tr>
+                        <td>{{ machine.model }}</td>
+                        <td>{{ machine.feature}}</td>
+                        <td>{{ machine.featureValue }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+  </div>
+
+<div class="machine_status_table">
+    <div class="table_head"><h3>Статус машин</h3></div>
+    <div class="container mb-5 mt-2">
+        <table class="table table-striped table-border mydatatable">
+
+            <thead>
+                <tr class="thead-dark">
+                    <th>ID станка</th>
+                    <th>Номер станка</th>
+                    <th>Состояние</th>
+                    <th>Цех</th>
+                    <th>Оператор</th>
+                    <th>Последний ремонт</th>
+                </tr>
+            </thead>
+            <tbody>
+
+
+            {% for machine_status in machine_statuses %}
+                <tr>
+                    <td>{{ machine_status.machine.id }}</td>
+                    <td>{{ machine_status.machine.model }}</td>
+                    <td>{{ machine_status.machineCondition }}</td>
+                    <td>{{ machine_status.workplace.manufacture}}</td>
+                    <td>{{ machine_status.workplace.worker }}</td>
+                    <td>{{ machine_status.repair.dateEndRepair }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+{% endfor %}
+
+{% for group in request.user.groups.all %}
+{% if group.name == 'level1' %}
+<div class="machine_table">
+    <div class="table_head">
+        <h3>Станки</h3>
+    </div>
+    <div class="container mb-5 mt-2">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr class="thead-dark">
+                    <th>Модель</th>
+                    <th>Параметер</th>
+                    <th>Значение</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for machine in machines %}
+                    <tr>
+                        <td>{{ machine.model }}</td>
+                        <td>{{ machine.feature}}</td>
+                        <td>{{ machine.featureValue }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="machine_status_table">
+    <div class="table_head"><h3>Статус машин</h3></div>
+    <div class="container mb-5 mt-2">
+        <table class="table table-striped table-border mydatatable">
+            <thead>
+                <tr class="thead-dark">
+                    <th>ID станка</th>
+                    <th>Модель станка</th>
+                    <th>Состояние</th>
+                    <th>Цех</th>
+                    <th>Оператор</th>
+                    <th>Последний ремонт</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for machine_status in machine_statuses %}
+                    <tr>
+                        <td>{{ machine_status.machine.id }}</td>
+                        <td>{{ machine_status.machine.model }}</td>
+                        <td>{{ machine_status.machineCondition }}</td>
+                        <td>{{ machine_status.workplace.manufacture}}</td>
+                        <td>{{ machine_status.workplace.worker }}</td>
+                        <td>{{ machine_status.repair.dateEndRepair }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+{% endfor %}
+
+{% for group in request.user.groups.all %}
+{% if group.name == 'level2' %}
+<div class="machine_table">
+    <div class="table_head">
+        <h3>Станки</h3>
+    </div>
+    <div class="container mb-5 mt-2">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr class="thead-dark">
+                                        <th>Модель</th>
+                                        <th>Параметер</th>
+                                        <th>Значение</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for machine in machines %}
+                                        <tr>
+                                            <td>{{ machine.model }}</td>
+                                            <td>{{ machine.feature}}</td>
+                                            <td>{{ machine.featureValue }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+</div>
+<div class="bid_table">
+                        <div class="table_head">
+                            <h3> Заявки </h3>
+                        </div>
+                        <div class="container mb-5 mt-5">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr class="thead-dark">
+                                        <th>Номер заявки</th>
+                                        <th>Отправитель</th>
+                                        <th>Тип заявки</th>
+                                        <th>Цех</th>
+                                        <th>Модель станка</th>
+                                        <th>Неиспарвность</th>
+                                        <th>Статус заявки</th>
+                                        <th>Дата заявки</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for bid in bids %}
+                                    <tr>
+                                    <td>{{ bid.id }}</td>
+                                    <td>{{ bid.sender }}</td>
+                                    <td>{{ bid.typeRequest }}</td>
+                                    <td>{{ bid.manufacture }}</td>
+                                    <td>{{ bid.machine.model }}</td>
+                                    <td>{{ bid.malfunction }}</td>
+                                    <td>{{ bid.status }}</td>
+                                    <td>{{ bid.date }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                </div>
+<div class="machine_status_table">
+                    <div class="table_head"><h3>Статус машин</h3></div>
+                    <div class="container mb-5 mt-2">
+                        <table class="table table-striped table-border mydatatable">
+                            <thead>
+                                <tr class="thead-dark">
+                                    <th>ID станка</th>
+                                    <th>Модель станка</th>
+                                    <th>Состояние</th>
+                                    <th>Цех</th>
+                                    <th>Оператор</th>
+                                    <th>Последний ремонт</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for machine_status in machine_statuses %}
+                                    <tr>
+                                        <td>{{ machine_status.machine.id }}</td>
+                                        <td>{{ machine_status.machine.model }}</td>
+                                        <td>{{ machine_status.machineCondition }}</td>
+                                        <td>{{ machine_status.workplace.manufacture}}</td>
+                                        <td>{{ machine_status.workplace.worker }}</td>
+                                        <td>{{ machine_status.repair.dateEndRepair }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+{% endif %}
+{% endfor %}
+
+{% for group in request.user.groups.all %}
+{% if group.name == 'level3' %}
+
+<div class="bid_table" style="margin-top: 20px">
+                    <div class="table_head">
+                        Новые заявки
+                    </div>
+                    <div class="container">
+
+                        <table class="table table-striped table-bordered">
+
+                            <thead>
+                                <tr class="thead-dark">
+                                    <th>Номер заявки</th>
+                                    <th>Отправитель</th>
+                                    <th>Оператор станка</th>
+                                    <th>Тип заявки</th>
+                                    <th>Номер станка</th>
+                                    <th>Номер цеха</th>
+                                    <th>Неисправность</th>
+                                    <th>Статус заявки</th>
+                                    <th>Дата заявки</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for new_bid in new_bids %}
+                                <tr>
+                                <td>{{  new_bid.id }}</td>
+                                <td>{{  new_bid.sender }}</td>
+                                <td>{{ new_bid.workplace.worker }}</td>
+                                <td>{{ new_bid.typeRequest }}</td>
+                                <td>{{ new_bid.workplace.machine }}</td>
+                                <td>{{ new_bid.workplace.manufacture }}</td>
+                                <td>{{ new_bid.malfunction }}</td>
+                                <td>{{ new_bid.status }}</td>
+                                <td>{{ new_bid.date }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+<div class="bid_table" style="margin-top: 20px">
+                    <div class="table_head">
+                        Текущие заявки
+                    </div>
+                    <div class="container">
+
+                        <table class="table table-striped table-bordered">
+
+                            <thead>
+                                <tr class="thead-dark">
+                                    <th>Номер заявки</th>
+                                    <th>Отправитель</th>
+                                    <th>Оператор станка</th>
+                                    <th>Тип заявки</th>
+                                    <th>Номер станка</th>
+                                    <th>Номер цеха</th>
+                                    <th>Неисправность</th>
+                                    <th>Статус заявки</th>
+                                    <th>Дата заявки</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for bid in bids %}
+                                <tr>
+                                <td>{{  bid.id }}</td>
+                                <td>{{  bid.sender }}</td>
+                                <td>{{ bid.workplace.worker }}</td>
+                                <td>{{ bid.typeRequest }}</td>
+                                <td>{{ bid.workplace.machine }}</td>
+                                <td>{{ bid.workplace.manufacture }}</td>
+                                <td>{{ bid.malfunction }}</td>
+                                <td>{{ bid.status }}</td>
+                                <td>{{ bid.date }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+{% endif %}
+{% endfor %}
